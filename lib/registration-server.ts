@@ -99,6 +99,30 @@ export async function handleRegistration(
   const createdAt = new Date().toISOString();
   const { webhookUrl, webhookToken } = getConfig();
   if (!webhookUrl) return json({ error: 'O webhook de inscrição ainda não foi configurado.' }, 503);
+  const webhookPayload = {
+    nome_completo: record.fullName,
+    pais_do_whatsapp: record.country,
+    whatsapp: record.phone,
+    email: record.email,
+    instagram_profissional: record.instagram,
+    cidade_e_estado: record.location,
+    experiencia_com_harmonizacao_facial: record.experience,
+    momento_atual_da_clinica: record.stage,
+    faturamento_mensal_atual: record.revenue,
+    principais_desafios: record.challenges,
+    outro_desafio: record.challengeOther,
+    area_prioritaria_para_a_experiencia: record.focusArea,
+    objetivo_para_os_proximos_6_meses: record.sixMonths,
+    faturamento_mensal_desejado: record.targetRevenue,
+    expectativa_para_o_encontro: record.expectation,
+    outra_expectativa: record.expectationOther,
+    principal_necessidade_para_alcancar_o_proximo_nivel: record.need,
+    experiencia_anterior_com_mentorias_ou_consultorias: record.mentoring,
+    interesse_em_conhecer_acompanhamento_do_ritchie_e_do_time: record.openness,
+    id_da_inscricao: values.submissionId,
+    evento: EVENT_KEY,
+    enviado_em: createdAt,
+  };
 
   try {
     const savedHash = await saveRegistration({
@@ -123,7 +147,7 @@ export async function handleRegistration(
           'X-Event-Key': EVENT_KEY,
           'X-Submission-Id': values.submissionId,
         },
-        body: JSON.stringify({ ...record, submissionId: values.submissionId, eventKey: EVENT_KEY, submittedAt: createdAt }),
+        body: JSON.stringify(webhookPayload),
         signal: controller.signal,
       });
       clearTimeout(timeout);

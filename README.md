@@ -50,6 +50,8 @@ X-Submission-Id: identificador-da-submissao
 
 Não coloque tokens no repositório.
 
+Os campos enviados no corpo do webhook usam nomes descritivos em português, como `nome_completo`, `cidade_e_estado`, `faturamento_mensal_atual`, `faturamento_mensal_desejado`, `experiencia_anterior_com_mentorias_ou_consultorias` e `interesse_em_conhecer_acompanhamento_do_ritchie_e_do_time`.
+
 ## Fluxo da inscrição
 
 ```text
