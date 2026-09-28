@@ -97,6 +97,8 @@ export async function handleRegistration(
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(answers));
   const hash = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
   const createdAt = new Date().toISOString();
+  const { webhookUrl, webhookToken } = getConfig();
+  if (!webhookUrl) return json({ error: 'O webhook de inscrição ainda não foi configurado.' }, 503);
 
   try {
     const savedHash = await saveRegistration({
@@ -110,28 +112,25 @@ export async function handleRegistration(
     });
     if (savedHash !== hash) return json({ error: 'As respostas foram alteradas. Confira o formulário e envie novamente.' }, 409);
 
-    const { webhookUrl, webhookToken } = getConfig();
-    if (webhookUrl) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 8000);
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(webhookToken ? { Authorization: `Bearer ${webhookToken}` } : {}),
-            'X-Event-Key': EVENT_KEY,
-            'X-Submission-Id': values.submissionId,
-          },
-          body: JSON.stringify({ ...record, submissionId: values.submissionId, eventKey: EVENT_KEY, submittedAt: createdAt }),
-          signal: controller.signal,
-        });
-        clearTimeout(timeout);
-        if (!response.ok) throw new Error(`webhook_${response.status}`);
-      } catch {
-        console.error('registration_webhook_failed');
-        return json({ error: 'Sua inscrição foi recebida, mas a confirmação está temporariamente indisponível. Tente enviar novamente em instantes.' }, 503);
-      }
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(webhookToken ? { Authorization: `Bearer ${webhookToken}` } : {}),
+          'X-Event-Key': EVENT_KEY,
+          'X-Submission-Id': values.submissionId,
+        },
+        body: JSON.stringify({ ...record, submissionId: values.submissionId, eventKey: EVENT_KEY, submittedAt: createdAt }),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!response.ok) throw new Error(`webhook_${response.status}`);
+    } catch {
+      console.error('registration_webhook_failed');
+      return json({ error: 'Não conseguimos confirmar sua inscrição no n8n. Tente novamente em instantes.' }, 503);
     }
 
     return json({ ok: true, redirectUrl: GROUP_URL });

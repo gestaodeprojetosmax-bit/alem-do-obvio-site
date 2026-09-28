@@ -2,25 +2,23 @@
 
 Landing page em `/` e formulário de inscrição em `/inscricao`.
 
-O formulário contém as perguntas de qualificação, WhatsApp com seletor de país (BR/+55 por padrão) e e-mail. As respostas são validadas no navegador e no servidor, persistidas no PostgreSQL/Neon e só então o visitante é encaminhado para o grupo de WhatsApp.
+O formulário contém as perguntas de qualificação, WhatsApp com seletor de país (BR/+55 por padrão) e e-mail. As respostas são validadas no navegador e no servidor e enviadas ao webhook de produção do n8n.
 
 ## Stack para Vercel
 
 - Next.js 16 com App Router
 - React 19
-- Neon Serverless Postgres via `@neondatabase/serverless`
-- Drizzle Kit para a migração do schema
 - Node.js 22+
+- Webhook n8n para receber e processar as inscrições
 
-A versão original usava `vinext`, Cloudflare Workers e Cloudflare D1. Para rodar na Vercel, o build agora usa Next.js nativo e a API usa Neon/Postgres, porque o binding `cloudflare:workers` e o D1 não existem no runtime da Vercel. A migração D1 original foi preservada em `drizzle-d1/` apenas como referência.
+A versão original usava `vinext`, Cloudflare Workers e Cloudflare D1. Para rodar na Vercel, o build usa Next.js nativo. O banco não fica na aplicação: o n8n recebe os dados e pode salvá-los no Google Sheets, CRM, Airtable ou outro destino.
 
 ## Desenvolvimento local
 
 ```bash
 pnpm install
 cp .env.example .env.local
-# preencha DATABASE_URL em .env.local
-pnpm db:migrate
+# preencha FORM_WEBHOOK_URL e FORM_WEBHOOK_TOKEN em .env.local
 pnpm dev
 ```
 
@@ -30,33 +28,34 @@ Comandos disponíveis:
 - `pnpm build`: build de produção
 - `pnpm start`: inicia o build de produção
 - `pnpm lint`: validação ESLint
-- `pnpm db:generate`: gera uma nova migração Drizzle
-- `pnpm db:migrate`: aplica migrações usando `DATABASE_URL`
 
 ## Deploy na Vercel
 
-1. Crie um banco Neon pelo [Marketplace da Vercel](https://vercel.com/marketplace/neon) ou no painel da Neon.
-2. Importe este repositório na Vercel. O projeto já contém `vercel.json`, `pnpm-lock.yaml` e os scripts nativos do Next.js.
-3. Em **Settings → Environment Variables**, configure:
-   - `DATABASE_URL`: connection string do Neon/Postgres;
-   - `FORM_WEBHOOK_URL`: opcional, URL que recebe os dados após o salvamento;
-   - `FORM_WEBHOOK_TOKEN`: opcional, token Bearer do webhook.
-4. Antes do primeiro uso do formulário, aplique o schema no banco. Localmente, com a mesma `DATABASE_URL` de produção:
+1. Importe este repositório na Vercel. O projeto já contém `vercel.json`, `pnpm-lock.yaml` e os scripts nativos do Next.js.
+2. No n8n, crie um Webhook com método `POST`, configure **Header Auth** e publique o workflow. Use a **Production URL**.
+3. Em **Settings → Environment Variables** da Vercel, configure:
 
-   ```bash
-   pnpm db:migrate
-   ```
+   - `FORM_WEBHOOK_URL`: Production URL do Webhook n8n;
+   - `FORM_WEBHOOK_TOKEN`: token sem o prefixo `Bearer`.
 
-5. Faça um redeploy e teste `/`, `/inscricao` e uma inscrição de ponta a ponta.
+4. Faça um redeploy para aplicar as variáveis e teste `/`, `/inscricao` e uma inscrição de ponta a ponta.
 
-A Vercel fará `pnpm install --frozen-lockfile` e `pnpm build` automaticamente conforme `vercel.json`. Não coloque `DATABASE_URL` ou tokens no repositório.
+A aplicação envia automaticamente estes cabeçalhos ao n8n:
 
-## Dados
+```http
+Authorization: Bearer SEU_TOKEN
+X-Event-Key: masterclass-dritchie-proximo-nivel
+X-Submission-Id: identificador-da-submissao
+```
 
-A tabela privada `registrations` guarda os contatos e respostas em `answers_json`. Não há rota pública de leitura. Nenhuma resposta pessoal vai na URL do WhatsApp.
+Não coloque tokens no repositório.
+
+## Fluxo da inscrição
+
+```text
+Visitante → Formulário Vercel → API Next.js → Webhook n8n → destino definido no workflow
+```
+
+Se o webhook não estiver configurado ou responder com erro, a API retorna `503` e a inscrição não é considerada confirmada.
 
 `lib/questionnaire.ts` contém perguntas, regras de validação, identificador do evento e destino do grupo.
-
-## Atenção ao banco existente
-
-O D1 usado no ambiente original não é automaticamente convertido para Neon. Se já houver inscrições em produção, exporte/migre esses dados separadamente antes de apontar a Vercel para o novo `DATABASE_URL`.
