@@ -191,7 +191,7 @@ export default function RegistrationForm() {
             {serverError && <p className="form-error-summary" role="alert">{serverError}</p>}
             <div className="form-actions">
               {step>0 && <Button type="button" variant="ghost" onClick={()=>focusStep(step-1)} disabled={sending} className="form-back"><ArrowLeft size={18}/>Voltar</Button>}
-              <Button type="submit" disabled={sending} className="cta form-next">{sending?<><LoaderCircle className="animate-spin" size={19}/> SALVANDO RESPOSTAS…</>:<>{step===3?'ENVIAR E ENTRAR NO GRUPO':'CONTINUAR'}<ArrowRight size={20}/></>}</Button>
+              <Button type="submit" disabled={sending} className="cta form-next">{sending?<><LoaderCircle className="animate-spin" size={19}/> SALVANDO RESPOSTAS…</>:<>{step===0?'COMEÇAR MINHA INSCRIÇÃO':step===3?'ENVIAR E ENTRAR NO GRUPO':'CONTINUAR'}<ArrowRight size={20}/></>}</Button>
             </div>
             <p className="form-footnote"><LockKeyhole size={13}/>{step===3?'Suas respostas serão salvas antes de abrir o WhatsApp.':'Seus dados serão usados pela equipe do Dr. Ritchie.'}</p>
           </form>
