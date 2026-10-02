@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { getCountries, parsePhoneNumberFromString, type CountryCode } from 'libphonenumber-js/max';
 
 export const GROUP_URL = 'https://chat.whatsapp.com/FEBBn2uqs5iCenG348y35L?s=cl&p=i&mlu=4&ilr=4';
-export const EVENT_KEY = 'proximo_nivel_2026_09_30';
+export const EVENT_KEY = 'proximo_nivel_2026_10_08';
 export const NOTICE_VERSION = 'inscricao-v1';
 
 export const questions = {

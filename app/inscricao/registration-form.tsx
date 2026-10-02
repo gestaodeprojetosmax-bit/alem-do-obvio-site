@@ -121,7 +121,7 @@ export default function RegistrationForm() {
   return <main className="registration-page">
     <header className="registration-header">
       <Link className="event-brand" href="/" aria-label="Voltar para a masterclass O Próximo Nível"><span className="event-brand__category">MASTERCLASS</span><span className="event-brand__name">O PRÓXIMO <span>NÍVEL</span></span></Link>
-      <span className="registration-date">30/09 <span>·</span> 21H <span>·</span> AO VIVO</span>
+      <span className="registration-date">08/10 <span>·</span> 21H <span>·</span> AO VIVO</span>
     </header>
     <div className="registration-layout">
       <aside className="registration-intro">
