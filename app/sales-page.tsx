@@ -75,7 +75,7 @@ export default function SalesPage() {
     const onClick = (event: MouseEvent) => {
       const link = event.currentTarget as HTMLAnchorElement;
       const cta = link.dataset.evt || 'cta';
-      const message = [`Olá! Quero saber valores e condições do Além do Óbvio.`, `Ref: ${reference}`, invisibleToken({ ...tracking, ref: reference, cta })].join('\n');
+      const message = [`Olá!${invisibleToken({ ...tracking, ref: reference, cta })} Quero saber valores e condições do Além do Óbvio.`, `Ref: ${reference}`].join('\n');
       link.href = `https://wa.me/${TEAM_WHATSAPP}?text=${encodeURIComponent(message)}`;
       void fetch('/api/alem-do-obvio', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'cta_click', reference, cta, tracking, tracking_text: trackingText, page: window.location.href }), keepalive: true }).catch(() => undefined);
       if (window.dataLayer) window.dataLayer.push({ event: 'click_whatsapp', cta, reference, ...tracking });
