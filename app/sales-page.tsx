@@ -23,6 +23,28 @@ function readTracking() {
   return tracking;
 }
 
+
+const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '28204701035866392';
+
+function loadPixel(pixelId: string) {
+  if (!pixelId || (window as Window).fbq) return;
+  /* eslint-disable */
+  (function (f: any, b: Document, e: string, v: string) {
+    if (f.fbq) return;
+    const n: any = (f.fbq = function (...args: unknown[]) { n.callMethod ? n.callMethod.apply(n, args) : n.queue.push(args); });
+    if (!f._fbq) f._fbq = n;
+    n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+    const t = b.createElement(e) as HTMLScriptElement; t.async = true; t.src = v;
+    const s0 = b.getElementsByTagName(e)[0]; s0.parentNode?.insertBefore(t, s0);
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  /* eslint-enable */
+  (window as Window).fbq?.('init', pixelId);
+}
+
+function pageViewParams(tracking: Record<string, string>) {
+  return { content_name: 'Além do Óbvio', content_category: 'Imersão presencial', page_url: window.location.href, referrer: document.referrer || undefined, ...tracking };
+}
+
 function invisibleToken(value: Record<string, string>) {
   const bytes = new TextEncoder().encode(JSON.stringify(value));
   const binary = Array.from(bytes, byte => String.fromCharCode(byte)).join('');
@@ -35,6 +57,10 @@ export default function SalesPage() {
   useEffect(() => {
     const tracking = readTracking();
     trackingRef.current = tracking;
+    loadPixel(PIXEL_ID);
+    const pageEventId = `pv-${crypto.randomUUID().replaceAll('-', '').slice(0, 12)}`;
+    try { window.fbq?.('track', 'PageView', pageViewParams(tracking), { eventID: pageEventId }); } catch { /* pixel optional */ }
+    if (window.dataLayer) window.dataLayer.push({ event: 'ao_page_view', event_id: pageEventId, ...tracking });
     const reference = `AO-${crypto.randomUUID().replaceAll('-', '').slice(0, 4).toUpperCase()}`;
     const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-evt]'));
     const original = new Map<HTMLAnchorElement, string>();
