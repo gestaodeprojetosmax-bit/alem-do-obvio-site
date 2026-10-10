@@ -55,7 +55,14 @@ export default function SalesPage() {
       original.set(link, link.href);
       link.addEventListener('click', onClick);
     }
-    return () => { for (const link of links) { link.removeEventListener('click', onClick); const href = original.get(link); if (href) link.href = href; } };
+    const sticky = document.querySelector<HTMLElement>('.sticky');
+    const updateSticky = () => sticky?.classList.toggle('is-visible', window.scrollY > 600);
+    updateSticky();
+    window.addEventListener('scroll', updateSticky, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', updateSticky);
+      for (const link of links) { link.removeEventListener('click', onClick); const href = original.get(link); if (href) link.href = href; }
+    };
   }, []);
 
   return <div dangerouslySetInnerHTML={{ __html: salesPageHtml }} />;
