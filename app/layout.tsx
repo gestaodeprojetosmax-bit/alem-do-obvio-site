@@ -3,10 +3,10 @@ import Script from "next/script";
 import "./globals.css";
 import "./form.css";
 export const metadata: Metadata = {
- title: "O Próximo Nível — Masterclass com Dr. Ritchie",
- description: "Posicionamento, percepção de valor e comercial para profissionais de Harmonização Facial. 08/10, às 21h.",
+ title: "Além do Óbvio — Imersão presencial com Dr. Ritchie",
+ description: "Última turma de 2026. Três dias de imersão presencial em São Paulo, com prática em pacientes reais e supervisão do Dr. Ritchie.",
  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
- openGraph: { type: "website", locale: "pt_BR", title: "O Próximo Nível — Masterclass com Dr. Ritchie", description: "Por que seus pacientes perguntam o preço e somem? Ao vivo, 08/10 às 21h." }
+ openGraph: { type: "website", locale: "pt_BR", title: "Além do Óbvio — Imersão presencial com Dr. Ritchie", description: "Última turma de 2026. Três dias de imersão presencial em São Paulo, com prática em pacientes reais e supervisão do Dr. Ritchie." }
 };
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
  return <html lang="pt-BR"><head><Script id="trackserver-hub" strategy="beforeInteractive">{`(function(t,s){
