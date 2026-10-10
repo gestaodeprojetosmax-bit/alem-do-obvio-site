@@ -14,6 +14,7 @@ const difficultyOptions = [
 ];
 
 const revenueOptions = ['Até R$ 20 mil', 'R$ 20 mil a R$ 40 mil', 'R$ 40 mil a R$ 70 mil', 'R$ 70 mil a R$ 100 mil', 'Acima de R$ 100 mil', 'Prefiro não informar'];
+const TEAM_WHATSAPP = '5511936206406';
 
 type FormState = { name: string; whatsapp: string; instagram: string; revenue: string; difficultyOne: string; difficultyTwo: string; other: string; consent: boolean };
 type Tracking = Record<string, string>;
@@ -66,7 +67,7 @@ export default function LeadForm() {
       if (!response.ok || !result.ok) throw new Error(result.error || 'Não foi possível enviar seus dados agora.');
       window.dispatchEvent(new CustomEvent('ao_lead_submitted', { detail: { reference: result.reference } }));
       const message = [`Olá! Quero saber valores e condições do Além do Óbvio (4 a 6 de dezembro).`, `Nome: ${form.name}`, `Instagram: ${form.instagram}`, `Faturamento mensal: ${form.revenue}`, `Maiores dificuldades: ${form.difficultyOne} / ${form.difficultyTwo}${form.other ? ` / ${form.other}` : ''}`, `Campanha: ${tracking.utm_campaign || tracking.campaign_name || 'não informada'} | Conjunto: ${tracking.adset_name || 'não informado'} | Anúncio: ${tracking.ad_name || 'não informado'}`, `Ref: ${result.reference}`, `Não apague esta mensagem, ela é enviada ao comercial com as suas informações.`].join('\n');
-      window.location.href = `https://wa.me/5511936206406?text=${encodeURIComponent(message)}`;
+      window.location.href = `https://wa.me/${TEAM_WHATSAPP}?text=${encodeURIComponent(message)}`;
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : 'Não foi possível enviar seus dados agora.');
       setSending(false);
