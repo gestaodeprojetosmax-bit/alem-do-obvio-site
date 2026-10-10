@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { salesPageHtml } from './alem-do-obvio/source';
 
-const TRACKING_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'campaign_name', 'campaign_id', 'adset_name', 'adset_id', 'ad_name', 'ad_id', 'campaign.name', 'campaign.id', 'adset.name', 'adset.id', 'ad.name', 'ad.id', 'fbclid'];
+const TRACKING_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'angulo', 'campaign_name', 'campaign_id', 'adset_name', 'adset_id', 'ad_name', 'ad_id', 'campaign.name', 'campaign.id', 'adset.name', 'adset.id', 'ad.name', 'ad.id', 'fbclid'];
 const TEAM_WHATSAPP = '5511936206406';
 
 function readTracking() {
@@ -23,6 +23,26 @@ function readTracking() {
   return tracking;
 }
 
+
+// Teste dinâmico (Herickson): a headline do topo muda conforme o ângulo do anúncio, lido de utm_content (ou utm_term / angulo).
+// Sem UTM de ângulo, a página mantém o título original "Além do Óbvio".
+const ANGLES: Record<string, { h1: string; lead?: string }> = {
+  dualidade: { h1: 'Conhecer a técnica é uma coisa. <em>Compreender o raciocínio</em> é outra.', lead: 'Três dias de imersão presencial em Full Face com o Dr. Ritchie, com prática em pacientes reais.' },
+  pergunta: { h1: 'Você já atende. <em>Mas o Full Face ainda não sai do papel?</em>', lead: 'Em três dias, com o Dr. Ritchie ao seu lado e pacientes reais, você aprende a planejar, avaliar e conduzir.' },
+  consciencia: { h1: 'O resultado do Full Face não está só na técnica. <em>Está na decisão clínica.</em>', lead: 'É essa decisão que o Dr. Ritchie ensina de perto, no Além do Óbvio.' },
+  historia: { h1: 'Três dias ao lado do Dr. Ritchie, <em>com pacientes reais.</em>', lead: 'Uma turma de no máximo 12 alunos, para você sair do curso executando com segurança.' },
+};
+
+function applyAngle(tracking: Record<string, string>) {
+  const raw = (tracking.angulo || tracking.utm_content || tracking.utm_term || '').toLowerCase();
+  const key = Object.keys(ANGLES).find(k => raw.includes(k));
+  if (!key) return;
+  const h1 = document.querySelector('.hero h1');
+  const lead = document.querySelector('.hero .lead');
+  if (h1) h1.innerHTML = ANGLES[key].h1;
+  if (lead && ANGLES[key].lead) lead.textContent = ANGLES[key].lead!;
+  tracking.angulo = key;
+}
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '28204701035866392';
 
@@ -62,6 +82,7 @@ export default function SalesPage() {
 
   useEffect(() => {
     const tracking = readTracking();
+    applyAngle(tracking);
     trackingRef.current = tracking;
     loadPixel(PIXEL_ID);
     const pageEventId = `pv-${crypto.randomUUID().replaceAll('-', '').slice(0, 12)}`;
