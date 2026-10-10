@@ -45,10 +45,16 @@ function pageViewParams(tracking: Record<string, string>) {
   return { content_name: 'Além do Óbvio', content_category: 'Imersão presencial', page_url: window.location.href, referrer: document.referrer || undefined, ...tracking };
 }
 
+const ZERO_WIDTH = ['\u200B', '\u200C', '\u200D', '\u2060'];
+
+// Codifica o JSON em caracteres de largura zero (4 por byte): nada aparece na mensagem do WhatsApp.
 function invisibleToken(value: Record<string, string>) {
   const bytes = new TextEncoder().encode(JSON.stringify(value));
-  const binary = Array.from(bytes, byte => String.fromCharCode(byte)).join('');
-  return `\u2063${window.btoa(binary)}\u2063`;
+  let out = '\u2063';
+  bytes.forEach(byte => {
+    out += ZERO_WIDTH[(byte >> 6) & 3] + ZERO_WIDTH[(byte >> 4) & 3] + ZERO_WIDTH[(byte >> 2) & 3] + ZERO_WIDTH[byte & 3];
+  });
+  return out + '\u2063';
 }
 
 export default function SalesPage() {
