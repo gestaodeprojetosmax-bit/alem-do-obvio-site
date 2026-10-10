@@ -47,7 +47,12 @@ export default function SalesPage() {
       link.href = `https://wa.me/${TEAM_WHATSAPP}?text=${encodeURIComponent(message)}`;
       void fetch('/api/alem-do-obvio', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'cta_click', reference, cta, tracking, tracking_text: trackingText, page: window.location.href }), keepalive: true }).catch(() => undefined);
       if (window.dataLayer) window.dataLayer.push({ event: 'click_whatsapp', cta, reference, ...tracking });
-      if (window.fbq) { try { window.fbq('track', 'Lead', {}, { eventID: reference }); } catch { /* pixel optional */ } }
+      if (window.fbq) {
+        try {
+          window.fbq('track', 'Contact', { content_name: 'Além do Óbvio', cta }, { eventID: `${reference}-contact` });
+          window.fbq('trackCustom', 'LeadWhatsApp', { content_name: 'Além do Óbvio', cta, reference, ...tracking }, { eventID: `${reference}-leadwhatsapp` });
+        } catch { /* pixel optional */ }
+      }
       if (window.gtag) { try { window.gtag('event', 'generate_lead', { cta, event_id: reference, ...tracking }); } catch { /* analytics optional */ } }
     };
 
