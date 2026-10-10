@@ -15,11 +15,24 @@ export async function POST(request: Request) {
   try { input = await request.json(); } catch { return json({ error: 'Envie os dados do formulário em JSON.' }, 400); }
   if (!input || typeof input !== 'object') return json({ error: 'Dados inválidos.' }, 400);
   const data = input as Record<string, unknown>;
+  const webhookUrl = process.env.FORM_WEBHOOK_URL;
+  if (!webhookUrl) return json({ error: 'O webhook ainda não foi configurado.' }, 503);
+  if (data.type === 'cta_click') {
+    const ref = typeof data.reference === 'string' && data.reference ? data.reference : reference();
+    const tracking = data.tracking && typeof data.tracking === 'object' ? data.tracking : {};
+    const payload = { tipo_evento: 'clique_whatsapp', codigo_de_referencia: ref, cta: data.cta || 'cta', pagina: data.page || '', data_e_hora: new Date().toISOString(), rastreio: tracking, rastreio_texto: data.tracking_text || '', origem: 'alem_do_obvio' };
+    try {
+      const response = await fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(process.env.FORM_WEBHOOK_TOKEN ? { Authorization: `Bearer ${process.env.FORM_WEBHOOK_TOKEN}` } : {}), 'X-Event-Key': 'alem_do_obvio_whatsapp_click', 'X-Reference': ref }, body: JSON.stringify(payload), signal: AbortSignal.timeout(8000) });
+      if (!response.ok) throw new Error(`webhook_${response.status}`);
+      return json({ ok: true, reference: ref });
+    } catch {
+      console.error('alem_do_obvio_cta_webhook_failed');
+      return json({ ok: false }, 503);
+    }
+  }
   const required = ['name', 'whatsapp', 'instagram', 'revenue', 'difficultyOne', 'difficultyTwo'];
   if (required.some(field => typeof data[field] !== 'string' || !String(data[field]).trim()) || data.consent !== true) return json({ error: 'Preencha todos os campos obrigatórios e aceite o contato pelo WhatsApp.' }, 422);
 
-  const webhookUrl = process.env.FORM_WEBHOOK_URL;
-  if (!webhookUrl) return json({ error: 'O webhook ainda não foi configurado.' }, 503);
   const ref = reference();
   const tracking = data.tracking && typeof data.tracking === 'object' ? data.tracking : {};
   const payload = {

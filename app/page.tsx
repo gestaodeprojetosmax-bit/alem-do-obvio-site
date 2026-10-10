@@ -1,5 +1,5 @@
-import AlemDoObvioPage from './alem-do-obvio/page';
+import SalesPage from './sales-page';
 
 export default function Home() {
-  return <AlemDoObvioPage />;
+  return <SalesPage />;
 }
