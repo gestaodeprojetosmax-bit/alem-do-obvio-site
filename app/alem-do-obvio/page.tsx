@@ -13,8 +13,11 @@ export default function AlemDoObvioPage() {
     <section className={styles.hero}>
       <Image className={styles.heroImage} src="/assets/alem-do-obvio-hero.jpeg" alt="Dr. Ritchie em uma sala de aula" fill priority sizes="100vw" />
       <div className={styles.heroShade} />
-      <div className={styles.heroContent}>
+      <div className={styles.heroTop}>
         <p className={styles.eyebrow}>ÚLTIMA TURMA DE 2026 <span>·</span> 12 VAGAS</p>
+        <p className={styles.mobileDate}>4, 5 E 6 DEZ 2026</p>
+      </div>
+      <div className={styles.heroContent}>
         <p className={styles.brand}>ALÉM DO ÓBVIO</p>
         <h1>Você já acompanha o Dr. Ritchie. <em>Agora aprenda ao lado dele.</em></h1>
         <p className={styles.heroText}>4, 5 e 6 de dezembro, em São Paulo. Três dias de imersão presencial, com prática em pacientes reais e supervisão do Dr. Ritchie.</p>
