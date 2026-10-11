@@ -30,6 +30,7 @@ const ANGLES: Record<string, { h1: string; lead?: string }> = {
   dualidade: { h1: 'Conhecer a técnica é uma coisa. <em>Compreender o raciocínio</em> é outra.', lead: 'Três dias de imersão presencial em Full Face com o Dr. Ritchie, com prática em pacientes reais.' },
   pergunta: { h1: 'Você já atende. <em>Mas o Full Face ainda não sai do papel?</em>', lead: 'Em três dias, com o Dr. Ritchie ao seu lado e pacientes reais, você aprende a planejar, avaliar e conduzir.' },
   consciencia: { h1: 'O resultado do Full Face não está só na técnica. <em>Está na decisão clínica.</em>', lead: 'É essa decisão que o Dr. Ritchie ensina de perto, no Além do Óbvio.' },
+  prova: { h1: 'O Dr. Ritchie treina <em>os melhores profissionais</em> da Harmonização.', lead: 'Três dias de imersão em Full Face com prática em pacientes reais, direto com quem ensina o raciocínio clínico.' },
   historia: { h1: 'Três dias ao lado do Dr. Ritchie, <em>com pacientes reais.</em>', lead: 'Uma turma de no máximo 12 alunos, para você sair do curso executando com segurança.' },
 };
 
