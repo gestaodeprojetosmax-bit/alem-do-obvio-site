@@ -288,7 +288,7 @@ section{border-top:1px solid var(--line)}
 .depo{display:block}
 .depo figure{display:grid;grid-template-columns:minmax(180px,34%) 1fr;gap:28px;align-items:center;margin:0 0 34px;border:0;background:none}
 .depo blockquote{font-family:var(--serif);font-size:clamp(22px,3.2vw,32px);line-height:1.25;border:0;padding:0}
-.depo blockquote:before{content:"\201C";display:block;font-size:64px;color:var(--gold);line-height:.6}
+.depo blockquote:before{content:"\\201C";display:block;font-size:64px;color:var(--gold);line-height:.6}
 @media(max-width:820px){.hero .ph img{border-radius:999px 999px 8px 8px}.depo figure{grid-template-columns:1fr}.cards li{grid-template-columns:60px 1fr}}
 </style>`;
 /* V9, regras da frontend-design: plano antes do código, um único elemento memorável (título gigante sobre a foto) e o resto contido. */
