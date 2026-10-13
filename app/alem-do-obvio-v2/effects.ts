@@ -34,6 +34,13 @@ details[open] p{animation:fd .5s ease}
 .chk .bx{transition:transform .25s ease,background .25s ease,box-shadow .25s ease}
 .chk input:checked+.bx{transform:scale(1.12);box-shadow:0 0 14px rgba(201,168,106,.5)}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.hero:before,.gp i,.sticky .cta{animation:none}.gal img{transition:none}.cta:after{display:none}}
+.hero .cta,.final-t .cta,.chkres .cta{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px;min-height:64px;margin-inline:auto;padding:18px 32px;font-size:15px;text-align:center}
+.hero>div:first-child{text-align:left}
+.hero .cta{margin-block:8px 28px}
+.final-t{text-align:center}
+.final-t .cta,.chkres .cta{margin-top:20px}
+.cta .cta-long,.cta .cta-short{text-align:center}
+.sticky .cta{width:100%;max-width:520px;margin-inline:auto;min-height:56px}
 </style>`;
 
 export function initEffects(variant = 'v2'): () => void {
@@ -115,6 +122,13 @@ details[open] p{animation:up .45s ease forwards}
 .chk input:checked+.bx{transform:scale(1.1);box-shadow:0 0 12px rgba(201,168,106,.45)}
 :focus-visible{outline:2px solid #e3cb95;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.hero:before{display:none}.o1{opacity:1;transform:none;animation:none}.hero .ph img{clip-path:none;animation:none}.day{opacity:1}}
+.hero .cta,.final-t .cta,.chkres .cta{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px;min-height:64px;margin-inline:auto;padding:18px 32px;font-size:15px;text-align:center}
+.hero>div:first-child{text-align:left}
+.hero .cta{margin-block:8px 28px}
+.final-t{text-align:center}
+.final-t .cta,.chkres .cta{margin-top:20px}
+.cta .cta-long,.cta .cta-short{text-align:center}
+.sticky .cta{width:100%;max-width:520px;margin-inline:auto;min-height:56px}
 </style>`;
 function initV3(): () => void {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -158,6 +172,13 @@ details[open] p{animation:fd .25s ease}
 .chk input:checked+.bx{transform:scale(1.1);box-shadow:0 0 12px rgba(201,168,106,.5)}
 .chk .bx{transition:transform .2s ease,box-shadow .2s ease}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.pg{display:none}}
+.hero .cta,.final-t .cta,.chkres .cta{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px;min-height:64px;margin-inline:auto;padding:18px 32px;font-size:15px;text-align:center}
+.hero>div:first-child{text-align:left}
+.hero .cta{margin-block:8px 28px}
+.final-t{text-align:center}
+.final-t .cta,.chkres .cta{margin-top:20px}
+.cta .cta-long,.cta .cta-short{text-align:center}
+.sticky .cta{width:100%;max-width:520px;margin-inline:auto;min-height:56px}
 </style>`;
 function initV4(): () => void {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
