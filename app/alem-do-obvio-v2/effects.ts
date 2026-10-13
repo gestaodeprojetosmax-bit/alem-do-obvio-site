@@ -242,7 +242,7 @@ export const cssV7 = `<style>${base}
 .hero{position:relative;display:block;min-height:min(86vh,760px);padding:0;margin-inline:-20px;border-radius:0;overflow:hidden}
 .hero .ph{position:absolute;inset:0;margin:0}
 .hero .ph img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:62% 20%;border-radius:0}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,9,9,.92) 0%,rgba(9,9,9,.7) 45%,rgba(9,9,9,.15) 100%),linear-gradient(0deg,#090909 0%,rgba(9,9,9,0) 30%)}
+.hero:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(9,9,9,.97) 0%,rgba(9,9,9,.9) 38%,rgba(9,9,9,.45) 62%,rgba(9,9,9,.1) 100%),linear-gradient(0deg,#090909 0%,rgba(9,9,9,0) 30%)}
 .hero>div:first-child{position:relative;z-index:2;max-width:620px;padding:clamp(32px,7vw,88px) 20px}
 .hero .pstrip{justify-content:flex-start}
 .hero .cta{margin-inline:0}
