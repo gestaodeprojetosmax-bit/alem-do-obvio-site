@@ -46,6 +46,7 @@ details[open] p{animation:fd .5s ease}
 export function initEffects(variant = 'v2'): () => void {
   if (variant === 'v3') return initV3();
   if (variant === 'v4') return initV4();
+  if (variant === 'v5' || variant === 'v6' || variant === 'v7') return initRef(variant);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cleanups: Array<() => void> = [];
   const q = <T extends Element>(s: string) => Array.from(document.querySelectorAll<T>(s));
@@ -193,4 +194,78 @@ function initV4(): () => void {
     targets.forEach((el) => io.observe(el)); cl.push(() => io.disconnect());
   }
   return () => cl.forEach((f) => f());
+}
+
+/* v5, v6, v7: padrões de estrutura inspirados em templates de referência (Cruip, ixartz/Next.js, galerias tipo Land-book e Lapa Ninja), com a mesma copy e a mesma paleta do Dr. Ritchie. */
+const base = `.cta,.nav a.mini{border-radius:999px}
+.cta{background:linear-gradient(135deg,#f0dca8 0%,#e3cb95 28%,#c9a86a 62%,#a98543 100%);box-shadow:0 10px 30px rgba(201,168,106,.25),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .25s ease,box-shadow .25s ease}
+.cta:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(201,168,106,.38)}
+.hero .cta,.final-t .cta,.chkres .cta{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px;min-height:64px;margin-inline:auto;padding:18px 32px;font-size:15px}
+.sticky .cta{width:100%;max-width:520px;margin-inline:auto;min-height:56px}
+:focus-visible{outline:2px solid #e3cb95;outline-offset:3px}
+.pstrip{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin:8px 0 26px}
+.pstrip div{text-align:center}
+.pstrip strong{display:block;font-family:var(--serif);font-size:clamp(28px,5vw,40px);color:var(--gold2);font-weight:500;line-height:1}
+.pstrip span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+`;
+export const cssV5 = `<style>${base}
+/* V5, padrão Cruip: topo translúcido fixo, hero centralizado com prova ao lado do botão, foto em faixa larga, blocos em grade */
+.nav{position:sticky;top:0}
+.hero{display:block;text-align:center;padding-block:40px 24px}
+.hero>div:first-child{max-width:860px;margin-inline:auto}
+.hero .eyebrow{justify-content:center}
+.hero .eyebrow:before{display:none}
+.hero .date,.hero p{margin-inline:auto}
+.hero .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left;margin-top:8px}
+.hero .ph{margin:36px 0 0;order:0}
+.hero .ph img{aspect-ratio:21/9;border-radius:18px;object-position:50% 22%;width:100%}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.cards li{border-radius:16px}
+@media(max-width:720px){.hero .facts{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.hero .ph img{aspect-ratio:4/3}}
+</style>`;
+export const cssV6 = `<style>${base}
+/* V6, padrão Next.js/Tailwind SaaS: hero à esquerda com prova abaixo do botão, bento grid, FAQ em duas colunas */
+.hero{align-items:center}
+.hero .pstrip{justify-content:flex-start;margin-top:18px}
+.hero .cta{margin-inline:0}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:minmax(150px,auto);gap:14px}
+.cards li:first-child{grid-column:span 2;background:linear-gradient(135deg,rgba(201,168,106,.14),rgba(201,168,106,.03))}
+.cards li{border-radius:20px;padding:24px}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.day{border-radius:20px}
+.faqw{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;align-items:start;max-width:none!important}
+details{border-radius:14px}
+@media(max-width:820px){.cards,.days,.faqw{grid-template-columns:1fr}.cards li:first-child{grid-column:auto}.hero .cta{margin-inline:auto}.hero .pstrip{justify-content:center}}
+</style>`;
+export const cssV7 = `<style>${base}
+/* V7, padrão editorial de galerias (Land-book, Lapa Ninja): hero com foto em tela cheia e texto sobreposto, galeria em faixa horizontal, depoimentos grandes */
+.hero{position:relative;display:block;min-height:min(86vh,760px);padding:0;margin-inline:-20px;border-radius:0;overflow:hidden}
+.hero .ph{position:absolute;inset:0;margin:0}
+.hero .ph img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:62% 20%;border-radius:0}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,9,9,.92) 0%,rgba(9,9,9,.7) 45%,rgba(9,9,9,.15) 100%),linear-gradient(0deg,#090909 0%,rgba(9,9,9,0) 30%)}
+.hero>div:first-child{position:relative;z-index:2;max-width:620px;padding:clamp(32px,7vw,88px) 20px}
+.hero .pstrip{justify-content:flex-start}
+.hero .cta{margin-inline:0}
+.gal{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px}
+.gal figure{flex:0 0 min(78vw,460px);scroll-snap-align:start;margin:0;border-radius:14px;overflow:hidden}
+.gal figure img{height:100%;max-height:520px;object-fit:cover}
+.depo{display:grid;gap:20px}
+.depo figure{border-radius:16px;overflow:hidden}
+.depo blockquote{font-family:var(--serif);font-size:clamp(22px,3.4vw,30px);line-height:1.25}
+@media(max-width:820px){.hero{min-height:auto;margin-inline:-20px}.hero:after{background:linear-gradient(0deg,rgba(9,9,9,.95) 40%,rgba(9,9,9,.35) 100%)}.hero>div:first-child{padding-top:46vh}.hero .pstrip{justify-content:center}.hero .cta{margin-inline:auto}}
+</style>`;
+function initRef(v: string): () => void {
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const nums = document.querySelector<HTMLElement>('.nums');
+  const cta = document.querySelector<HTMLElement>('.hero .cta');
+  if (nums && cta) {
+    const strip = document.createElement('div'); strip.className = 'pstrip'; strip.innerHTML = nums.innerHTML;
+    cta.insertAdjacentElement('afterend', strip);
+  }
+  if (v === 'v6') {
+    const wrap = Array.from(document.querySelectorAll<HTMLElement>('details')).map((d) => d.parentElement).find(Boolean);
+    wrap?.classList.add('faqw');
+  }
+  if (v === 'v5' && hero) hero.querySelector('.facts')?.classList.add('facts5');
+  return () => {};
 }
