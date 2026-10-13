@@ -306,7 +306,7 @@ h1{font-size:clamp(56px,9.5vw,124px);line-height:.92;letter-spacing:-.035em}
 h2{font-size:clamp(38px,7vw,78px);letter-spacing:-.02em;max-width:16ch}
 section{padding-block:clamp(60px,10vw,120px)}
 .mark{font-size:clamp(70px,16vw,200px);opacity:.35}
-@media(max-width:820px){.hero>div:first-child{position:relative;background:none;padding:20px 0}.hero .ph img{aspect-ratio:4/5}.hero .ph:before{display:none}.hero .facts{display:grid}}
+@media(max-width:820px){.hero>div:first-child{position:relative;background:none;padding:20px 0}.hero .ph img{aspect-ratio:4/5}.hero .ph:before{display:none}.hero .facts{display:grid}.hero .pstrip{justify-content:center}.hero .cta{margin-inline:auto}}
 </style>`;
 /* V10, ui-ux-pro-max: sistema de design primeiro (vidro escuro, bordas finas douradas, hierarquia clara, alvos grandes). */
 export const cssV10 = `<style>${base}
