@@ -19,6 +19,10 @@ h1.ln{overflow:hidden}
 .days{position:relative}
 .days:before{content:"";position:absolute;left:0;top:0;height:2px;width:calc(var(--p,0)*100%);background:linear-gradient(90deg,var(--gold),var(--gold2));box-shadow:0 0 14px rgba(201,168,106,.6);transition:width .15s linear}
 .cta{position:relative;overflow:hidden}
+.cta,.nav a.mini{border-radius:999px}
+.cta{background:linear-gradient(135deg,#f0dca8 0%,#e3cb95 28%,#c9a86a 62%,#a98543 100%);box-shadow:0 10px 30px rgba(201,168,106,.28),inset 0 1px 0 rgba(255,255,255,.45);transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}
+.cta:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 16px 42px rgba(201,168,106,.4),inset 0 1px 0 rgba(255,255,255,.5)}
+.nav a.mini{background:linear-gradient(135deg,rgba(201,168,106,.16),rgba(201,168,106,.04))}
 .cta:after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.32),transparent);transform:skewX(-20deg);transition:left .8s ease}
 .cta:hover:after{left:130%}
 .sticky .cta{animation:pulse 2.8s ease-in-out infinite}
