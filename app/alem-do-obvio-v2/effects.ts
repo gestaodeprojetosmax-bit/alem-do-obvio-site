@@ -295,10 +295,10 @@ section{border-top:1px solid var(--line)}
 export const cssV9 = `<style>${base}
 .hero{display:block;position:relative;padding:0 0 40px}
 .hero .ph{position:relative;margin:0}
-.hero .ph img{aspect-ratio:16/9;max-height:78vh;width:100%;border-radius:6px;object-position:60% 22%}
+.hero .ph img{aspect-ratio:16/9;max-height:78vh;width:100%;border-radius:6px;object-position:80% 22%}
 .hero>div:first-child{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:clamp(18px,4vw,48px);background:linear-gradient(0deg,#090909 8%,rgba(9,9,9,.0) 100%)}
 .hero .ph:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(9,9,9,.95) 0%,rgba(9,9,9,.4) 55%,rgba(9,9,9,.05) 100%);pointer-events:none}
-h1{font-size:clamp(64px,13vw,170px);line-height:.9;letter-spacing:-.04em}
+h1{font-size:clamp(56px,9.5vw,124px);line-height:.92;letter-spacing:-.035em}
 .hero .date{font-size:clamp(20px,3vw,32px)}
 .hero .facts{display:none}
 .hero .cta{margin-inline:0}
