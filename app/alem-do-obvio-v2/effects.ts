@@ -3,10 +3,10 @@ export const effectsCss = `<style>
 .hero{position:relative}
 .hero:before{content:"";position:absolute;left:50%;top:-120px;width:140%;height:620px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0,rgba(201,168,106,.20),rgba(201,168,106,0) 62%);pointer-events:none;animation:beam 9s ease-in-out infinite alternate}
 @keyframes beam{from{opacity:.55;transform:translateX(-54%) rotate(-3deg)}to{opacity:1;transform:translateX(-46%) rotate(3deg)}}
-.gp{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.hero>.gp{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.hero .ph,.hero>div{z-index:1}
 .gp i{position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;background:var(--gold2);opacity:0;animation:rise linear infinite}
 @keyframes rise{0%{opacity:0;transform:translateY(0)}15%{opacity:.7}100%{opacity:0;transform:translateY(-640px)}}
-.hero>*{position:relative;z-index:1}
 h1.ln{overflow:hidden}
 .rv{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
 .rv.in{opacity:1;transform:none}
