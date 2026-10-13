@@ -57,7 +57,7 @@ function invisibleToken(value: Record<string, string>) {
   return out + '\u2063';
 }
 
-export default function SalesPage() {
+export default function SalesPage({ html = salesPageHtml, animated = false }: { html?: string; animated?: boolean }) {
   const trackingRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
@@ -102,7 +102,14 @@ export default function SalesPage() {
     };
   }, []);
 
-  return <div dangerouslySetInnerHTML={{ __html: salesPageHtml }} />;
+  useEffect(() => {
+    if (!animated) return;
+    let off = () => {};
+    void import('./alem-do-obvio-v2/effects').then((m) => { off = m.initEffects(); });
+    return () => off();
+  }, [animated]);
+
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 declare global {
