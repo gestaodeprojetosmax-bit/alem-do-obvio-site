@@ -46,7 +46,7 @@ details[open] p{animation:fd .5s ease}
 export function initEffects(variant = 'v2'): () => void {
   if (variant === 'v3') return initV3();
   if (variant === 'v4') return initV4();
-  if (variant === 'v5' || variant === 'v6' || variant === 'v7') return initRef(variant);
+  if (['v5','v6','v7','v8','v9','v10'].includes(variant)) return initRef(variant);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cleanups: Array<() => void> = [];
   const q = <T extends Element>(s: string) => Array.from(document.querySelectorAll<T>(s));
@@ -269,3 +269,58 @@ function initRef(v: string): () => void {
   if (v === 'v5' && hero) hero.querySelector('.facts')?.classList.add('facts5');
   return () => {};
 }
+
+/* V8, regras da claude-design-skill: direção editorial, sem cartões de borda lateral, sem gradiente decorativo, um elemento memorável (foto em arco) e hierarquia por tipografia. */
+export const cssV8 = `<style>${base}
+.hero{align-items:end}
+.hero .ph{margin-inline:0}
+.hero .ph img{border-radius:999px 999px 8px 8px;aspect-ratio:3/4;object-position:50% 18%}
+h1{font-size:clamp(56px,11vw,132px);letter-spacing:-.03em}
+.hero .pstrip{justify-content:flex-start;border-top:1px solid var(--line);padding-top:18px}
+.hero .cta{margin-inline:0}
+section{border-top:1px solid var(--line)}
+.mark{opacity:.5}
+.cards{display:block;border-top:1px solid var(--line)}
+.cards li{display:grid;grid-template-columns:90px 1fr;gap:6px 24px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:26px 0}
+.cards li i{font-family:var(--serif);font-size:44px;color:var(--gold);font-style:normal;grid-row:span 2}
+.day{border:0;border-top:1px solid var(--line);background:none;border-radius:0}
+.day .d{font-family:var(--serif);font-size:clamp(30px,5vw,48px)}
+.depo{display:block}
+.depo figure{display:grid;grid-template-columns:minmax(180px,34%) 1fr;gap:28px;align-items:center;margin:0 0 34px;border:0;background:none}
+.depo blockquote{font-family:var(--serif);font-size:clamp(22px,3.2vw,32px);line-height:1.25;border:0;padding:0}
+.depo blockquote:before{content:"\201C";display:block;font-size:64px;color:var(--gold);line-height:.6}
+@media(max-width:820px){.hero .ph img{border-radius:999px 999px 8px 8px}.depo figure{grid-template-columns:1fr}.cards li{grid-template-columns:60px 1fr}}
+</style>`;
+/* V9, regras da frontend-design: plano antes do código, um único elemento memorável (título gigante sobre a foto) e o resto contido. */
+export const cssV9 = `<style>${base}
+.hero{display:block;position:relative;padding:0 0 40px}
+.hero .ph{position:relative;margin:0}
+.hero .ph img{aspect-ratio:16/9;max-height:78vh;width:100%;border-radius:6px;object-position:60% 22%}
+.hero>div:first-child{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:clamp(18px,4vw,48px);background:linear-gradient(0deg,#090909 8%,rgba(9,9,9,.0) 100%)}
+.hero .ph:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(9,9,9,.95) 0%,rgba(9,9,9,.4) 55%,rgba(9,9,9,.05) 100%);pointer-events:none}
+h1{font-size:clamp(64px,13vw,170px);line-height:.9;letter-spacing:-.04em}
+.hero .date{font-size:clamp(20px,3vw,32px)}
+.hero .facts{display:none}
+.hero .cta{margin-inline:0}
+.hero .pstrip{justify-content:flex-start}
+h2{font-size:clamp(38px,7vw,78px);letter-spacing:-.02em;max-width:16ch}
+section{padding-block:clamp(60px,10vw,120px)}
+.mark{font-size:clamp(70px,16vw,200px);opacity:.35}
+@media(max-width:820px){.hero>div:first-child{position:relative;background:none;padding:20px 0}.hero .ph img{aspect-ratio:4/5}.hero .ph:before{display:none}.hero .facts{display:grid}}
+</style>`;
+/* V10, ui-ux-pro-max: sistema de design primeiro (vidro escuro, bordas finas douradas, hierarquia clara, alvos grandes). */
+export const cssV10 = `<style>${base}
+.hero .ph img{border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(201,168,106,.25)}
+.hero .facts>div,.cards li,.day,.depo figure,details,.chkres,.price,.bx{background:rgba(255,255,255,.035);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(201,168,106,.22);border-radius:18px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cards li{padding:24px}
+.cards li:hover,.depo figure:hover{border-color:rgba(201,168,106,.55);background:rgba(201,168,106,.06)}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.day{padding:22px}
+details{padding:6px 18px;margin-bottom:10px}
+summary{min-height:52px;display:flex;align-items:center;cursor:pointer}
+.hero .pstrip{justify-content:flex-start}
+.hero .cta{margin-inline:0}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 500px at 80% -10%,rgba(201,168,106,.14),transparent 60%),radial-gradient(700px 500px at 0% 40%,rgba(201,168,106,.07),transparent 60%)}
+@media(max-width:820px){.cards,.days{grid-template-columns:1fr}.hero .cta{margin-inline:auto}.hero .pstrip{justify-content:center}}
+</style>`;
