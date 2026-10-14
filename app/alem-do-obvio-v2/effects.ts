@@ -241,7 +241,7 @@ export const cssV7 = `<style>${base}
 /* V7, padrão editorial de galerias (Land-book, Lapa Ninja): hero com foto em tela cheia e texto sobreposto, galeria em faixa horizontal, depoimentos grandes */
 .hero{position:relative;display:block;min-height:min(86vh,760px);padding:0;margin-inline:-20px;border-radius:0;overflow:hidden}
 .hero .ph{position:absolute;inset:0;margin:0}
-.hero .ph img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:93% 20%;border-radius:0}
+.hero .ph img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:85% 20%;border-radius:0}
 .hero .ph:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(9,9,9,.97) 0%,rgba(9,9,9,.9) 38%,rgba(9,9,9,.45) 62%,rgba(9,9,9,.1) 100%),linear-gradient(0deg,#090909 0%,rgba(9,9,9,0) 30%)}
 .hero>div:first-child{position:relative;z-index:2;max-width:620px;padding:clamp(32px,7vw,88px) 20px}
 .hero .pstrip{justify-content:flex-start}
@@ -331,8 +331,8 @@ export const cssV11 = `<style>
 .cta:hover{background:#e3cb95;transform:none;box-shadow:none}
 .hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,72px);align-items:end;padding-block:clamp(28px,5vw,64px) clamp(48px,8vw,96px)}
 .hero>div:first-child{order:1;padding-bottom:12px}
-.hero .ph{order:2;position:relative;margin:0 calc(50% - 50vw) 0 0}
-.hero .ph img{width:100%;aspect-ratio:4/5;max-height:86vh;object-fit:cover;object-position:93% 20%;border-radius:0;box-shadow:none}
+.hero .ph{order:2;position:relative;margin:0}
+.hero .ph img{width:100%;aspect-ratio:4/5;max-height:86vh;object-fit:cover;object-position:85% 20%;border-radius:0;box-shadow:none}
 .hero .ph:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 h1{font-size:clamp(52px,7.2vw,104px);line-height:.95;letter-spacing:-.03em;margin-bottom:28px}
 .hero .date{font-size:clamp(20px,2.4vw,28px);border-left:1px solid #c9a86a;padding-left:16px;margin-bottom:22px}
