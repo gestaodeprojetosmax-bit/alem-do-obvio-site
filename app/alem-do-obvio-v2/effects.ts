@@ -344,3 +344,8 @@ section{padding-block:clamp(64px,10vw,128px)}
 .cards li,.day,details,.depo figure,.price,.chkres,.bx{border-radius:2px;background:none;box-shadow:none}
 @media(max-width:820px){.hero{grid-template-columns:1fr}.hero .ph{order:0;margin:0 -20px}.hero .ph img{aspect-ratio:4/4.6}.hero>div:first-child{order:1}.hero .cta{display:flex;width:100%}}
 </style>`;
+
+/* V12: mesma sobriedade da V11, com a ordem das seções inspirada na página de referência do Herickson (prova e objeção logo após o topo, três dias antes de quem conduz) e faixa de qualificação. */
+export const cssV12 = `${cssV11}<style>
+.qbar{position:relative;z-index:3;background:#100e0b;border-bottom:1px solid rgba(201,168,106,.22);text-align:center;padding:10px 16px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#e3cb95}
+</style>`;
